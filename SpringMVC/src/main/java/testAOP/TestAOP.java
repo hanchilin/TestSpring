@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.hanchilin.SpringMVC.Performer;
 
 
-public class Test {
+public class TestAOP {
 
 	public static void main(String[] args) throws Exception {
 		/*ApplicationContext ac = new ClassPathXmlApplicationContext("ApplicationContext.xml");
