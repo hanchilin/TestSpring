@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+        
+        <context:annotation-config></context:annotation-config>
+        <context:component-scan base-package="com.hanchilin.SpringMVC"></context:component-scan>
+        <bean id="duke" class="com.hanchilin.SpringMVC.Juggler">
+          <constructor-arg value="15"></constructor-arg>
+        </bean>
+        <bean id="sonnet29" class="com.hanchilin.SpringMVC.Sonnet29"/>
+        <!-- <bean id="poeticDuke" class="com.hanchilin.SpringMVC.PoeticJuggler">
+          <constructor-arg value="15"></constructor-arg>
+          <constructor-arg ref="sonnet29"></constructor-arg>
+        </bean> -->
+       <!--  <bean id="kenny" class="com.hanchilin.SpringMVC.Instrumentalist" p:song="Jingle Bells" 
+        	p:instrument-ref="piano">
+          
+          <property name="song" value="Jingle Bells"></property>
+          <property name="instrument" ref="piano"/> -->
+        <bean id="kenny" class="com.hanchilin.SpringMVC.Instrumentalist" p:song="Jingle Bells"></bean>
+        <bean id="saxophone" class="com.hanchilin.SpringMVC.Saxophone"/>
+        <bean id="piano" class="com.hanchilin.SpringMVC.Piano"/>
+        <!-- <bean id="hank" class="com.hanchilin.SpringMVC.OneManBand">
+          <property name="instruments">
+          	<list>
+          	  <ref bean="guitar"/>
+          	  <ref bean="cymbal"/>
+          	  <ref bean="harmonica"/>
+          	</list>
+          </property>
+        </bean>
+        
+        <bean id="hank" class="com.hanchilin.SpringMVC.OneManBand">
+          <property name="instruments">
+          	<map>
+          	  <entry key="GUITAR" value-ref="piano"/>
+          	  <entry key="CYMAL" value-ref="saxophone"/>
+          	  <entry key="HARMONICA" key-ref="harmonica"/>
+          	</map>
+          </property>
+        </bean> -->
+        
+        
+        <bean id="audience" class="testAOP.Audience"/>       	
+        <aop:config>
+        	<aop:aspect ref="audience">
+        		<aop:pointcut expression="execution(* com.hanchilin.SpringMVC.Juggler.perform(..))" id="performance"/>
+        		<aop:before method="takeSeats" pointcut-ref="performance"/>
+        		<aop:before method="turnOffCellPhone" pointcut-ref="performance"/>
+        		<aop:after-returning method="applaud" pointcut-ref="performance"/>
+        		<aop:after-throwing method="demandRefund" pointcut-ref="performance"/>
+        	</aop:aspect>
+        </aop:config>
+        
+        <bean id="magcian" class="testAOP.Magcian"/>
+        <aop:config>
+        	<aop:aspect ref="magcian">
+        		<aop:pointcut expression="execution(* testInterface.Thinker.thinkOfSomething(String)) and args(thoughts)" id="thinking"/>
+        		<aop:before method="interceptThoughts" pointcut-ref="thinking" arg-names="thoughts"/>
+        	</aop:aspect>
+        </aop:config>
+</beans>
